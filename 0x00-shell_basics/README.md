@@ -1,1 +1,1 @@
-A script that deletes all files in the current working directory that end with the character ~
+A magic file school.mgc that can be used with the command file to detect School data files
