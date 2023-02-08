@@ -1,33 +1,35 @@
 #!/usr/bin/python3
+
 """
-Using https://jsonplaceholder.typicode.com
-gathers data from API and exports it to CSV file
-Implemented using recursion
+Python script that exports data in the CSV format
 """
-import re
-import requests
-import sys
 
+from requests import get
+from sys import argv
+import csv
 
-API = "https://jsonplaceholder.typicode.com"
-"""REST API url"""
+if __name__ == "__main__":
+    response = get('https://jsonplaceholder.typicode.com/todos/')
+    data = response.json()
 
+    row = []
+    response2 = get('https://jsonplaceholder.typicode.com/users')
+    data2 = response2.json()
 
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        if re.fullmatch(r'\d+', sys.argv[1]):
-            id = int(sys.argv[1])
-            user_res = requests.get('{}/users/{}'.format(API, id)).json()
-            todos_res = requests.get('{}/todos'.format(API)).json()
-            user_name = user_res.get('username')
-            todos = list(filter(lambda x: x.get('userId') == id, todos_res))
-            with open('{}.csv'.format(id), 'w') as file:
-                for todo in todos:
-                    file.write(
-                        '"{}","{}","{}","{}"\n'.format(
-                            id,
-                            user_name,
-                            todo.get('completed'),
-                            todo.get('title')
-                        )
-                    )
+    for i in data2:
+        if i['id'] == int(argv[1]):
+            employee = i['username']
+
+    with open(argv[1] + '.csv', 'w', newline='') as file:
+        writ = csv.writer(file, quoting=csv.QUOTE_ALL)
+
+        for i in data:
+
+            row = []
+            if i['userId'] == int(argv[1]):
+                row.append(i['userId'])
+                row.append(employee)
+                row.append(i['completed'])
+                row.append(i['title'])
+
+                writ.writerow(row)
