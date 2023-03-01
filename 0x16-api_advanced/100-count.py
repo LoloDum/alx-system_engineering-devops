@@ -8,6 +8,8 @@ def count_words(subreddit, word_list, found_list=[], after=None):
 
     Args:
         subreddit (str): The subreddit to search.
+        word_list (list): The list of words to search for in post titles.
+        found_list (obj): Key/value pairs of words/counts.
         after (str): The parameter for the next page of the API results.
     '''
     user_agent = {'User-agent': 'test45'}
